@@ -66,23 +66,22 @@ model.compile(loss='mse', optimizer='rmsprop')
 class TestCallback(Callback):
     def on_epoch_end(self, epoch, logs={}):
         test_on_samples(3, False)
-        
+
 # utility funkcija za iscrtavanje rezultata: ulazna slika -> rekonstruisana slika
 def test_on_samples(nb_samples=10, random=True):
     for i in range(nb_samples):
         idx = np.random.randint(X_test.shape[0]) if random == True else i
         input_vect = X_test[idx]
         input_img = input_vect.reshape(28,28)
-        output_vect = model.predict(np.array([input_vect]))
-        output_img = output_vect.reshape(28,28)
+        # output_vect = model.predict(np.array([input_vect]))
+        # output_img = output_vect.reshape(28,28)
         fig = plt.figure(figsize=(3, 3))
         ax1 = fig.add_subplot(1, 2, 1)
-        ax1.imshow(input_img, 'gray')
+        # ax1.imshow(input_img, 'gray')
         ax2 = fig.add_subplot(1, 2, 2)
-        ax2.imshow(output_img, 'gray')
+        # ax2.imshow(output_img, 'gray')
         plt.show()
 
 # obucavanje neuronske mreze
 model.fit(X_train, X_train, batch_size=batch_size, nb_epoch=nb_epoch,
           show_accuracy=True, validation_data=(X_test, X_test), callbacks=[TestCallback()])
-        

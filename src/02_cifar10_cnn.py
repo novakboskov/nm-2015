@@ -89,7 +89,7 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 # ucitavanje snimljenih tezina iz prethodnog obucavanja
 if test_only:
-    model.load_weights('02_cifar10_cnn.hdf5')
+    model.load_weights('weights/cifar10_cnn.hdf5')
 
 X_train = X_train.astype("float32")
 X_test = X_test.astype("float32")
@@ -148,7 +148,7 @@ else:
         if save_weights and score < best_score:
             best_score = score
             best_epoch = e
-            model.save_weights('02_cifar10_cnn.hdf5', overwrite=True)
+            model.save_weights('weights/cifar10_cnn.hdf5', overwrite=True)
 
         print("Best epoch", best_epoch)
 
@@ -160,15 +160,7 @@ def test_rand_img():
     '''
     # random slika iz test skupa
     rand_index = np.random.randint(0, X_test.shape[0])
-    X_test_img = X_test[rand_index]
-    # prvo mora konvert iz 3x32x32 -> 32x32x3
-    img = np.ndarray((img_rows, img_cols, img_channels))
-
-    for i in range(img_rows):
-        for j in range(img_cols):
-            img[i, j, 0] = X_test_img[0, i, j]
-            img[i, j, 1] = X_test_img[1, i, j]
-            img[i, j, 2] = X_test_img[2, i, j]
+    img = X_test[rand_index].transpose(1, 2, 0) # konvert iz 3x32x32 -> 32x32x3
 
     plt.figure()
     plt.imshow(img)
